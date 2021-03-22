@@ -1,3 +1,4 @@
+package src;
 public class AsoutputBase64 {
   String res;
   public AsoutputBase64(String str) {

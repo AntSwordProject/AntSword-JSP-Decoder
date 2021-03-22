@@ -1,0 +1,9 @@
+.DS_*
+*.class
+.idea/
+.vscode/
+dist/*
+out/
+output/
+test*.py
+*.py[cod]
