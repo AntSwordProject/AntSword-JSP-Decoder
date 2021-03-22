@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Java JDK
+        run: |
+          wget https://master.dl.sourceforge.net/project/as-assets/jdk/jdk1.5.0.zip -qO /tmp/jdk1.5.0.zip
+          unzip /tmp/jdk1.5.0.zip -d ~/
+          echo 'export JAVA_HOME=~/jdk1.5.0' >> ~/.bashrc
+          echo 'export JRE_HOME=$JAVA_HOME/jre' >> ~/.bashrc
+          echo 'export PATH="$JAVA_HOME/bin:$JRE_HOEM/bin:$PATH"' >> ~/.bashrc
+      - name: Run Build
+        run: |
+          export JAVA_HOME=~/jdk1.5.0
+          export JRE_HOME=$JAVA_HOME/jre
+          export PATH="$JAVA_HOME/bin:$JRE_HOEM/bin:$PATH"
+          java -version
+          python build.py
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: decoder-template
+          path: dist/
